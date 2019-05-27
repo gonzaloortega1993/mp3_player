@@ -6,27 +6,24 @@ with contextlib.redirect_stdout(None):
     pygame.mixer.init()
 
 def main():
-    '''Funcion principal del buscador de archivos mp3. Esta aplicación funciona vía PyGame.
-       Es necesario insertar en el terminal las 2 lineas de abajo '''
-    #source dataenv/bin/activate
-    #pip3 install pygame
+    '''Main function of the mp3 player'''
     interactuar(buscar())
 
 
 class Mp3:
-    '''Representación de un archivo.mp3'''
+    '''Representation of one mp3 file'''
 
     def __init__(self, nombre, ruta):
-        '''Constructor de la  clase mp3 '''
+        '''Constructor of the mp3 class '''
         self.nombre = nombre
         self.ruta = ruta
 
     def __str__(self):
-        '''Nos brinda la representacion del mp3 como cadena de texto (para imprimir)'''
+        '''Readable string representation of the mp3 object'''
         return "{}".format(self.nombre)
 
     def ver_tamaño(self, ruta_y_mp3):
-        '''Nos da el tamaño del mp3'''
+        '''Size of the mp3'''
         tamaño = str(os.path.getsize(ruta_y_mp3))
         if len(tamaño) >= 7:
             tamaño = "4389435"
@@ -36,19 +33,19 @@ class Mp3:
         return tamaño + " Bytes"
 
     def ver_nombre(self):
-        '''Nos da el nombre del mp3'''
+        '''Shows the name of the mp3'''
         return self.nombre    
 
     def ver_ruta(self):
-        '''Nos da la ruta del mp3'''
+        '''Shows the path of the mp3'''
         return self.ruta
 
     def __lt__(self, otro):
-        '''Permite comparar objetos mediante < y >.'''
+        '''Allows to compare objects throught < and >.'''
         return self.nombre < otro.nombre
 
 def buscar():
-    '''Busca todos los archivos .mp3 de la PC, por cada uno devuelve su nombre y un numero asociado'''
+    '''Finds all the mp3 files on the computer. For each returns the name and one number'''
     import os
     import bisect
     initial_dir = '/Users'
@@ -67,11 +64,11 @@ def buscar():
     for mp3 in mp3_totales:
         print (nro_del_mp3, mp3)
         nro_del_mp3 += 1
-    print ("La cantidad de archivos .mp3 en el ordenador es de ", cantidad_de_mp3)
+    print ("The amount of mp3 files in the computer is ", cantidad_de_mp3)
     return mp3_totales
 
 def reproducir(ruta_y_mp3):
-    '''Reproduce via PyGame el mp3 elegido''' 
+    '''Plays via PyGame the chosen mp3''' 
     import time
     import contextlib
     with contextlib.redirect_stdout(None):
@@ -81,19 +78,19 @@ def reproducir(ruta_y_mp3):
             pygame.time.Clock().tick(10)
    
 def interactuar(mp3_totales):
-    '''Si el usuario selecciona uno devuelve su ubicacion, duracion y pregunta si quiere que lo reproduzca'''
+    '''If the user choose one it return his path, duration and ask if he want to hear it'''
     continuar = "s"
     while continuar == "s":
-        mp3_elegido=int(input("Ingrese el nro del mp3 para obtener sus datos: "))
+        mp3_elegido=int(input("Enter the mp3's number to obtain his data: "))
         if len(mp3_totales) > (mp3_elegido-1):
             mp3 = mp3_totales[mp3_elegido-1]
             ruta_y_mp3 = [mp3.ver_ruta(), mp3.ver_nombre()]
             ruta_y_mp3 = "/".join(ruta_y_mp3)      
             print ("Nombre: ", mp3," - Tamaño: ", mp3.ver_tamaño(ruta_y_mp3), "- Ubicación: ", mp3.ver_ruta())
-        sonar=input("¿Querés reproducirlo? (s/n)")
+        sonar=input("¿Do you want to play it? (s/n)")
         if sonar == "s":
             reproducir(ruta_y_mp3)    
         print (ruta_y_mp3)
-        continuar=input("¿Querés continuar?(s/n)") 
+        continuar=input("¿Do you want to continue?(s/n)") 
 
 main()
