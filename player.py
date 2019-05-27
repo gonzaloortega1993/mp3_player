@@ -7,90 +7,90 @@ with contextlib.redirect_stdout(None):
 
 def main():
     '''Main function of the mp3 player'''
-    interactuar(buscar())
+    interact(find())
 
 
 class Mp3:
     '''Representation of one mp3 file'''
 
-    def __init__(self, nombre, ruta):
+    def __init__(self, name, path):
         '''Constructor of the mp3 class '''
-        self.nombre = nombre
-        self.ruta = ruta
+        self.name = name
+        self.path = path
 
     def __str__(self):
         '''Readable string representation of the mp3 object'''
-        return "{}".format(self.nombre)
+        return "{}".format(self.name)
 
-    def ver_tamaño(self, ruta_y_mp3):
+    def see_size(self, path_and_mp3):
         '''Size of the mp3'''
-        tamaño = str(os.path.getsize(ruta_y_mp3))
-        if len(tamaño) >= 7:
-            tamaño = "4389435"
-            tamaño=[tamaño[:-6],str(int(tamaño[-6:-5]) + 1)]
-            tamaño=".".join(tamaño)    
-            return tamaño + " MB"
+        size = str(os.path.getsize(path_and_mp3))
+        if len(size) >= 7:
+            size = "4389435"
+            size=[size[:-6],str(int(size[-6:-5]) + 1)]
+            size=".".join(size)    
+            return size + " MB"
         return tamaño + " Bytes"
 
-    def ver_nombre(self):
+    def see_name(self):
         '''Shows the name of the mp3'''
-        return self.nombre    
+        return self.name    
 
-    def ver_ruta(self):
+    def see_path(self):
         '''Shows the path of the mp3'''
-        return self.ruta
+        return self.path
 
-    def __lt__(self, otro):
+    def __lt__(self, other):
         '''Allows to compare objects throught < and >.'''
-        return self.nombre < otro.nombre
+        return self.name < other.name
 
-def buscar():
+def find():
     '''Finds all the mp3 files on the computer. For each returns the name and one number'''
     import os
     import bisect
     initial_dir = '/Users'
-    mp3_totales = []
-    cantidad_de_mp3 = 0
-    ruta = ''
-    for origen, _, archivos in os.walk(initial_dir):
-        for archivo in archivos:
-            if '.mp3' not in archivo or '.asd' in archivo or '.pek' in archivo or '.cfa' in archivo:
+    total_mp3s = []
+    mp3s_amount = 0
+    path = ''
+    for origin, _, files in os.walk(initial_dir):
+        for files in files:
+            if '.mp3' not in files or '.asd' in files or '.pek' in files or '.cfa' in files:
                 continue
-            ruta = os.path.join(origen)
-            archivo = Mp3(archivo, ruta)
-            bisect.insort(mp3_totales, archivo)
-            cantidad_de_mp3 += 1   
-    nro_del_mp3 = 1
-    for mp3 in mp3_totales:
-        print (nro_del_mp3, mp3)
-        nro_del_mp3 += 1
-    print ("The amount of mp3 files in the computer is ", cantidad_de_mp3)
-    return mp3_totales
+            path = os.path.join(origin)
+            files = Mp3(files, path)
+            bisect.insort(total_mp3s, files)
+            mp3s_amount += 1   
+    mp3_number = 1
+    for mp3 in total_mp3s:
+        print (mp3_number, mp3)
+        mp3_number += 1
+    print ("The amount of mp3 files in the computer is ", mp3s_amount)
+    return total_mp3s
 
-def reproducir(ruta_y_mp3):
+def play(path_and_mp3):
     '''Plays via PyGame the chosen mp3''' 
     import time
     import contextlib
     with contextlib.redirect_stdout(None):
-        pygame.mixer.music.load(ruta_y_mp3)
+        pygame.mixer.music.load(path_and_mp3)
         pygame.mixer.music.play()
         while pygame.mixer.music.get_busy(): 
             pygame.time.Clock().tick(10)
    
-def interactuar(mp3_totales):
+def interact(total_mp3s):
     '''If the user choose one it return his path, duration and ask if he want to hear it'''
-    continuar = "s"
-    while continuar == "s":
-        mp3_elegido=int(input("Enter the mp3's number to obtain his data: "))
-        if len(mp3_totales) > (mp3_elegido-1):
-            mp3 = mp3_totales[mp3_elegido-1]
-            ruta_y_mp3 = [mp3.ver_ruta(), mp3.ver_nombre()]
-            ruta_y_mp3 = "/".join(ruta_y_mp3)      
-            print ("Nombre: ", mp3," - Tamaño: ", mp3.ver_tamaño(ruta_y_mp3), "- Ubicación: ", mp3.ver_ruta())
-        sonar=input("¿Do you want to play it? (s/n)")
-        if sonar == "s":
-            reproducir(ruta_y_mp3)    
-        print (ruta_y_mp3)
-        continuar=input("¿Do you want to continue?(s/n)") 
+    continue_ = "s"
+    while continue_ == "s":
+        chosen_mp3=int(input("Enter the mp3's number to obtain his data: "))
+        if len(total_mp3s) > (chosen_mp3-1):
+            mp3 = total_mp3s[chosen_mp3-1]
+            path_and_mp3 = [mp3.see_path(), mp3.see_name()]
+            path_and_mp3 = "/".join(path_and_mp3)      
+            print ("Name: ", mp3," - Size: ", mp3.see_size(path_and_mp3), "- Path: ", mp3.see_path())
+        sound=input("¿Do you want to play it? (s/n)")
+        if sound == "s":
+            play(path_and_mp3)    
+        print (path_and_mp3)
+        continue_=input("¿Do you want to continue?(s/n)") 
 
 main()
