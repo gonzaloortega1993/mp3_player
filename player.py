@@ -79,18 +79,18 @@ def play(path_and_mp3):
    
 def interact(total_mp3s):
     '''If the user choose one it return his path, duration and ask if he want to hear it'''
-    continue_ = "s"
-    while continue_ == "s":
+    continue_ = "y"
+    while continue_ == "y":
         chosen_mp3=int(input("Enter the mp3's number to obtain his data: "))
         if len(total_mp3s) > (chosen_mp3-1):
             mp3 = total_mp3s[chosen_mp3-1]
             path_and_mp3 = [mp3.see_path(), mp3.see_name()]
             path_and_mp3 = "/".join(path_and_mp3)      
             print ("Name: ", mp3," - Size: ", mp3.see_size(path_and_mp3), "- Path: ", mp3.see_path())
-        sound=input("¿Do you want to play it? (s/n)")
-        if sound == "s":
+        sound=input("¿Do you want to play it? (y/n)")
+        if sound == "y":
             play(path_and_mp3)    
         print (path_and_mp3)
-        continue_=input("¿Do you want to continue?(s/n)") 
+        continue_=input("¿Do you want to continue?(y/n)") 
 
 main()

@@ -25,7 +25,7 @@ When the App runs it automatically find all the mp3 files and ask the user to en
 
 `Enter the number of mp3 to obtain his data`
 
-After that it asks to the user if he want to hear it, if he answer `s` the file is played and once finished the App
+After that it asks to the user if he want to hear it, if he answer `y` the file is played and once finished the App
 ask to choose another mp3 until the user enter `n`
 
 ## Developed with
